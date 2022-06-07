@@ -21,11 +21,18 @@ class bst
         void display(); 	//supplied
 
 /* ************** PLACE YOUR PROTOTYPE HERE ***************** */
- 
- 
+  
+  void deleteBig(node*, node*);
+  node* returnRoot();
+  void deleteSmall(node*&, node*, node*);
+  void findPredecessor(node*, node*);
+  int returnLeaves(node*);
+  void deleteLeaves(node*, node*);
  	private:
- 		node * root;
+                node * root;
+  
 		void display_tree(node*, int);
+                
 };
   
 

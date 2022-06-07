@@ -1,7 +1,95 @@
 #include "bst.h"
 
 bst::bst(){root = NULL;}
-
+int bst::returnLeaves(node* current) {
+  if(current == NULL) {
+    return 0;
+  }
+  else if(current->left == NULL && current->right == NULL) {
+    return 1;
+  }
+  else {
+  return returnLeaves(current->left)+returnLeaves(current->right);
+  }
+}
+void bst::deleteLeaves(node* current, node* parent) {
+  if(current == NULL) {
+    return;
+  }
+  if(current->left == NULL && current->right == NULL) {
+    node* temp = current;
+    if(parent->left == current) {
+      parent->left = NULL;
+    }
+    else {
+      parent->right = NULL;
+    }
+    delete temp;
+    return;
+  }
+  deleteLeaves(current->left, current);
+  deleteLeaves(current->right, current);
+}
+node* bst::returnRoot() {
+  return root;
+}
+void bst::deleteSmall(node* & root, node* current, node* parent) {
+  if(current->left != NULL) {
+    deleteSmall(root, current->left, current);
+  }
+  else {
+    if(current == root) {
+      node* temp = root;
+      root = root->right;
+      delete temp;
+    }
+    else if(current->right != NULL) {
+      node* temp = current;
+      parent->left = current->right;
+      delete temp;
+    }
+    else {
+      node* temp = current;
+      parent->left = NULL;
+      delete temp;
+    }
+  }
+}
+void bst::findPredecessor(node* root, node* current) {
+  if(current == NULL) {
+    if(root->left == current) {
+      cout << "The root is the biggest" << endl;
+    }
+    return;
+  }
+  if(current == root) {
+    findPredecessor(root, current->left);
+  }
+  else if(current->right != NULL) {
+    findPredecessor(root, current->right);
+  }
+  else {
+    
+      cout << "Predecessor found!" << endl;
+      cout << current->data << endl;
+      
+  }
+}
+void bst::deleteBig(node* current, node* parent) {
+  if(current == NULL) {
+    return;
+  }
+  deleteBig(current->left, current);
+  deleteBig(current->right, current);
+  cout << current->data << endl;
+  if(parent->left == current) {
+    parent->left = NULL;
+  }
+  else {
+    parent->right = NULL;
+  }
+  delete current;
+}
 void bst::build() {
   srand((unsigned)time(0));
   int arrayLength = rand()%5+10;
